@@ -65,6 +65,7 @@ class OIDCGuard extends SessionGuard
         $this->fireLoginEvent($user, $remember);
 
         $this->setUser($user);
+        return true;
     }
 
     public function user()
