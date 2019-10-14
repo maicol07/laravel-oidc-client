@@ -1,5 +1,7 @@
 {
     "name": "gcs/oidc-client",
+    "version": "1.0.0",
+    "license": "MIT",
     "require": {
         "jumbojett/openid-connect-php": "^0.8.0"
     },
