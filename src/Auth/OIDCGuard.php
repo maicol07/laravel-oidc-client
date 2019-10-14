@@ -33,7 +33,7 @@ class OIDCGuard extends SessionGuard
         try {
             $this->oidc->authenticate();
         } catch (OpenIDConnectClientException $e) {
-            
+            throw $e;
         }
     }
     
@@ -42,7 +42,7 @@ class OIDCGuard extends SessionGuard
         try {
             $this->oidc->authenticate();
         } catch (OpenIDConnectClientException $e) {
-
+            throw $e;
         }
         $userInfo = $this->oidc->requestUserInfo();
         return $userInfo;

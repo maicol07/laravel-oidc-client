@@ -4,7 +4,6 @@
 namespace GCS\OIDCClient\Auth;
 
 
-use App\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 
@@ -14,8 +13,11 @@ class OIDCUserProvider implements UserProvider
 
     public function retrieveByInfo($user_info)
     {
-        $user = new User([
-            'name' => $user_info->first_name,
+        $model = config('auth.providers.users.model');
+        $user = new $model ([
+            'uuid' => $user_info->shared_id,
+            'first_name' => $user_info->first_name,
+            'last_name' => $user_info->last_name,
             'email' => $user_info->email
         ]);
         return $user;

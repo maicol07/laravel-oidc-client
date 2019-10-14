@@ -2,19 +2,25 @@
 
 namespace GCS\OIDCClient\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\RedirectsUsers;
+
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\RedirectsUsers;
 
 
 class OIDCController extends Controller
 {
 
-    use RedirectsUsers;
-    
-    protected $redirectTo = '/home';
+    use RedirectsUsers,ValidatesRequests;
+    use AuthorizesRequests, DispatchesJobs;
+
+
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
