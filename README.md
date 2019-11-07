@@ -7,7 +7,7 @@ A Laravel package for delegating authentication to an OpenID Provider.
 Begin by adding this package to your depedencies with the command:
 
 ```
-composer required gcs/oidc-client
+composer require gcs/oidc-client
 ```
 
 Then add the following line to the list of registered service providers in `config/app.php`:
