@@ -17,7 +17,7 @@ class OIDCServiceProvider extends ServiceProvider
      */
     final public function register(): void
     {
-        //
+        $this->mergeConfigFrom(__DIR__ . '/config.php', 'oidc');
     }
 
     /**
@@ -29,7 +29,7 @@ class OIDCServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/config.php' => config_path('oidc.php'),
-        ]);
+        ], 'oidc.config');
 
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadRoutesFrom(__DIR__ . '/routes.php');
