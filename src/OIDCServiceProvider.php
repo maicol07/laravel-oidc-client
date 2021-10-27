@@ -1,13 +1,12 @@
 <?php
 
-namespace GCS\OIDCClient;
-
-use GCS\OIDCClient\Auth\OIDCGuard;
-use GCS\OIDCClient\Auth\OIDCUserProvider;
+namespace Maicol07\OIDCClient;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
-use Jumbojett\OpenIDConnectClient;
+use Maicol07\OIDCClient\Auth\OIDCGuard;
+use Maicol07\OIDCClient\Auth\OIDCUserProvider;
+use Maicol07\OpenIDConnect\Client;
 
 class OIDCServiceProvider extends ServiceProvider
 {
@@ -16,7 +15,7 @@ class OIDCServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    final public function register(): void
     {
         //
     }
@@ -26,37 +25,29 @@ class OIDCServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    final public function boot(): void
     {
         $this->publishes([
-            __DIR__.'/config.php' => config_path('oidc.php'),
+            __DIR__ . '/config.php' => config_path('oidc.php'),
         ]);
 
-        $this->loadRoutesFrom(__DIR__ .'/routes.php');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadRoutesFrom(__DIR__ . '/routes.php');
 
-        Auth::extend('oidc', function($app) {
-            $client = $this->createOpenIDConnectClient();
+        Auth::extend('oidc', function ($app) {
+            $client = $this->getOIDCClient();
             $provider = new OIDCUserProvider();
             return new OIDCGuard(
-                'oidc', $client, $provider, 
-                $app['session.store']);
+                'oidc',
+                $client,
+                $provider,
+                $app['session.store']
+            );
         });
     }
 
-    private function createOpenIDConnectClient()
+    private function getOIDCClient(): Client
     {
-        $client = new OpenIDConnectClient(
-            config('oidc.provider_url'),
-            config('oidc.client_id'),
-            config('oidc.client_secret')
-        );
-        foreach (config('oidc.scopes') as $scope) {
-            $client->addScope($scope);
-        }
-        $client->setRedirectURL(
-            route('oidc.callback')
-        );
-        return $client;
+        return new Client(config('oidc'));
     }
-    
 }

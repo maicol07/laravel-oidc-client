@@ -1,82 +1,55 @@
 <?php
 
+/** @noinspection ContractViolationInspection */
 
-namespace GCS\OIDCClient\Auth;
+namespace Maicol07\OIDCClient\Auth;
 
-
+use AssertionError;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
-
+use Illuminate\Foundation\Auth\User;
+use Maicol07\OpenIDConnect\UserInfo;
 
 class OIDCUserProvider implements UserProvider
 {
-
-    public function retrieveByInfo($user_info)
+    final public function retrieveByInfo(UserInfo $user_info): User
     {
-        $model = config('auth.providers.users.model');
-        $user = new $model ([
-            'uuid' => $user_info->shared_id,
-            'first_name' => $user_info->first_name,
-            'last_name' => $user_info->last_name,
-            'email' => $user_info->email
-        ]);
+        $attrs = $user_info->attrs();
+        $uuid = $attrs->pull('sub');
+
+        $user = config('auth.providers.users.model')::where('uuid', $uuid)->firstOrNew();
+        try {
+            assert($user instanceof User);
+        } catch (AssertionError) {
+            throw new AssertionError('User model must extend ' . User::class);
+        }
+
+        /** @noinspection UnusedFunctionResultInspection */
+        $attrs->each(fn(mixed $value, string $attr) => $user->$attr = $value);
+
         return $user;
     }
 
-    /**
-     * Retrieve a user by their unique identifier.
-     *
-     * @param mixed $identifier
-     * @return \Illuminate\Contracts\Auth\Authenticatable|null
-     */
-    public function retrieveById($identifier)
+    final public function retrieveById(mixed $identifier): ?User
     {
         return null;
     }
 
-    /**
-     * Retrieve a user by their unique identifier and "remember me" token.
-     *
-     * @param mixed $identifier
-     * @param string $token
-     * @return \Illuminate\Contracts\Auth\Authenticatable|null
-     */
-    public function retrieveByToken($identifier, $token)
+    final public function retrieveByToken(mixed $identifier, mixed $token): ?User
     {
         return null;
     }
 
-    /**
-     * Update the "remember me" token for the given user in storage.
-     *
-     * @param \Illuminate\Contracts\Auth\Authenticatable $user
-     * @param string $token
-     * @return void
-     */
-    public function updateRememberToken(Authenticatable $user, $token)
+    final public function updateRememberToken(Authenticatable|User $user, mixed $token): void
     {
-        return;
     }
 
-    /**
-     * Retrieve a user by the given credentials.
-     *
-     * @param array $credentials
-     * @return \Illuminate\Contracts\Auth\Authenticatable|null
-     */
-    public function retrieveByCredentials(array $credentials)
+    final public function retrieveByCredentials(array $credentials): ?User
     {
         return null;
     }
 
-    /**
-     * Validate a user against the given credentials.
-     *
-     * @param \Illuminate\Contracts\Auth\Authenticatable $user
-     * @param array $credentials
-     * @return bool
-     */
-    public function validateCredentials(Authenticatable $user, array $credentials)
+    final public function validateCredentials(Authenticatable $user, array $credentials): bool
     {
         return true;
     }

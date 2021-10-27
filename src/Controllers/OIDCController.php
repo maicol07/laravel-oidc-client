@@ -1,26 +1,24 @@
 <?php
 
-namespace GCS\OIDCClient\Controllers;
+namespace Maicol07\OIDCClient\Controllers;
 
-
+use Exception;
+use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Foundation\Auth\RedirectsUsers;
-
+use Maicol07\OIDCClient\Auth\OIDCGuard;
 
 class OIDCController extends Controller
 {
-
-    use RedirectsUsers,ValidatesRequests;
-    use AuthorizesRequests, DispatchesJobs;
-
-
-    protected $redirectTo = '/';
+    use ValidatesRequests;
+    use AuthorizesRequests;
+    use DispatchesJobs;
 
     /**
      * Create a new controller instance.
@@ -31,48 +29,43 @@ class OIDCController extends Controller
     {
     }
 
-    public function signin()
+    /**
+     * @throws Exception
+     */
+    final public function login(): RedirectResponse
     {
-        $this->guard()->redirect();
+        return redirect()->away($this->guard()->getAuthorizationUrl());
     }
 
-    public function callback(Request $request)
+    /**
+     * @throws Exception
+     */
+    final public function callback(Request $request): null|RedirectResponse
     {
-        $userInfo = $this->guard()->retrieveUserInfo();
-        $user = $this->guard()->generateUser($userInfo);
-        
+        $user = $this->guard()->generateUser();
+
         if ($this->guard()->login($user)) {
-            return $this->sendLoginResponse($request);
+            $request->session()->regenerate();
+
+            return redirect()->intended(config('oidc.redirect_path_after_login'));
         }
-        return $this->sendFailedLoginResponse($request);
-    }
 
-    protected function sendLoginResponse(Request $request)
-    {
-        $request->session()->regenerate();
-        
-        return redirect()->intended($this->redirectPath());
-    }
-
-    protected function sendFailedLoginResponse(Request $request)
-    {
         throw ValidationException::withMessages([
             'user' => [trans('auth.failed')],
         ]);
     }
 
-    public function signout(Request $request)
+    final public function logout(Request $request): RedirectResponse
     {
         $this->guard()->logout();
 
         $request->session()->invalidate();
 
-        return redirect()->intended($this->redirectPath());
+        return redirect()->intended(config('oidc.redirect_path_after_logout'));
     }
-    
-    private function guard()
+
+    private function guard(): StatefulGuard|OIDCGuard
     {
         return Auth::guard();
     }
-    
 }

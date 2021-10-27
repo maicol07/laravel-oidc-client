@@ -2,23 +2,32 @@
 
 A Laravel package for delegating authentication to an OpenID Provider.
 
-## How to install
+> This package is an heavenly modified fork of [cabinetoffice / oidc-client — Bitbucket](https://bitbucket.org/cabinetoffice/oidc-client)
+
+## Requirements
+
+- PHP 8.0+
+- Laravel 8+
+- Composer 2
+
+## Installation
 
 Begin by adding this package to your depedencies with the command:
 
-```
-composer require gcs/oidc-client
-```
-
-Then add the following line to the list of registered service providers in `config/app.php`:
-
-```
-GCS\OIDCClient\OIDCServiceProvider::class
+```powershell
+composer require maicol07/oidc-client
 ```
 
-Edit your  `config/auth.php` file to use OpenID as the authentication method for your users:
+If you have opted out from auto discovery, you'll need to add the following line to the list of registered service
+providers in `config/app.php`:
 
+```php
+Maicol07\OIDCClient\OIDCServiceProvider::class
 ```
+
+Edit your `config/auth.php` file to use OpenID as the authentication method for your users:
+
+```php
 'guards' => [
     'web' => [
         'driver' => 'oidc',
@@ -28,34 +37,46 @@ Edit your  `config/auth.php` file to use OpenID as the authentication method for
 ],
 ```
 
-## How to configure
+## Configuration
 
-Run the following command to publish the `config/oidc.php` configuration file:
+You can set the following environment variables to adjust the package settings:
 
+- `OIDC_CLIENT_ID`: Client ID of your app. This is commonly provided by your OIDC provider.
+- `OIDC_CLIENT_SECRET`: Client secret of your app. This is commonly provided by your OIDC provider.
+- `OIDC_PROVIDER_URL`: URL of your OIDC provider. This is used if your provider supports OIDC Auto Discovery.
+- `OIDC_PROVIDER_NAME`: This is a short name for your OpenID provider, which will only appears in your OpenID routes. Do
+  not use spaces.
+- `OIDC_VERIFY`: Verify SSL when sending requests to the server. Defaults to `true`. (Optional: You can
+  set `OIDC_CERT_PATH` to an SSL certificate path if you set this option to `false`)
+- `OIDC_HTTP_PROXY`: If you have a proxy, set it here.
+- `OIDC_SCOPES`: A list of scopes, separated by a comma (`,`). Defaults to `['openid']`. Example of valid
+  value: `openid,email`
+
+You can find other options to set and their env variables in `config/oidc.php`. Note that some options are not
+required (like endpoints) if you use OIDC auto discovery!
+
+You can also publish the config file (`config/oidc.php`) if you want:
+
+```powershell
+php artisan vendor:publish --provider="Maicol07\OIDCClient\OIDCServiceProvider"
 ```
-php artisan vendor:publish --provider="GCS\OIDCClient\OIDCServiceProvider"
-```
-
-The settings to configure are the following
-
-- `client_id` This is the ID of your client application used by the OpenID provider. You should set this through an environment variable called `OIDC_CLIENT_ID`.
-- `client_secret` This is the secret code of your client application only known by the OpenID provider. You should set this through an environment variable called `OIDC_CLIENT_SECRET`.
-- `provider_url` This is base URL of the OpenID provider. You should set this through an environment variable called `OIDC_PROVIDER_URL`.
-- `provider_name` This is a short name for your OpenID provider, which will only appears in your OpenID routes. Do not use spaces. You should set this through an environment variable called `OIDC_PROVIDER_NAME`.
-- `scopes` This is a list of scopes your application will request from the OpenID provider. The `openid` scope is required. **Add any additional scopes.**
-
 
 ## How to use
 
-Once everything is set up, you can replace your login system with a call to the route `route('oidc.signin')`. For logouts, use the route `route('oidc.signout')`.
+Once everything is set up, you can replace your login system with a call to the route `route('oidc.login')`. For
+logouts, use the route `route('oidc.logout')`.
 
-You may want to overwrite the `$redirectTo` variable inside `OIDCController` in order to specify the route you want your users to be taken to upon successful authentication. 
+You can set the following environment variables to specify the routes/URLs you want your users to be redirected to upon
+successful authentication/logout: `OIDC_REDIRECT_PATH_AFTER_LOGIN` and `OIDC_REDIRECT_PATH_AFTER_LOGOUT`.
 
-Another important method you may need to overwrite is `retrieveByInfo` inside `OIDCUserProvider`. This function takes the array of user attributes retrieved from the OpenID provider, and returns a User model for the authenticated user. This is where you may want to merge the info you receive from the provider with the info you hold about that user in your application database.
+You may want to create your own `User` model. If yes, then you must extend `Maicol07\OIDCClient\User` in order to get
+auth working.
+
+Check your `auth.providers.users.model` config value: it must be set to your custom `User` model or
+to `Maicol07\OIDCClient\User` instead.
 
 ---
-*Developed by Cabinet Office Digital Development in October 2019.
-*
 
-
-
+> Originally developed by Cabinet Office Digital Development in October 2019.
+>
+> Currently maintained by [mamicol07](https://maicol07.it) from October 2021

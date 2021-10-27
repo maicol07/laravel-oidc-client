@@ -1,19 +1,39 @@
 {
-    "name": "gcs/oidc-client",
+    "name": "maicol07/laravel-oidc-client",
     "version": "1.0.0",
     "license": "MIT",
     "require": {
-        "jumbojett/openid-connect-php": "^0.8.0"
+        "php": ">=8.0",
+        "maicol07/oidc-client": "^2",
+        "laravel/framework": "^8"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "friendsofphp/php-cs-fixer": "^3"
     },
     "authors": [
         {
             "name": "Cabinet Office Digital Development",
-            "email": "webmaster@cabinetoffice.gov.uk"
+            "email": "webmaster@cabinetoffice.gov.uk",
+            "role": "Creator"
+        },
+        {
+            "name": "Maicol Battistini",
+            "email": "webmaster@maicol07.it",
+            "homepage": "https://maicol07.it",
+            "role": "Maintainer"
         }
     ],
     "autoload": {
         "psr-4": {
-            "GCS\\OIDCClient\\": "src/"
+            "Maicol07\\OIDCClient\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Maicol07\\OIDCClient\\OIDCServiceProvider"
+            ]
         }
     }
 }
