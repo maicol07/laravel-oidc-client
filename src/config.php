@@ -17,7 +17,7 @@ return [
     'code_challenge_method' => env('OIDC_CODE_CHALLENGE_METHOD'),
     'timeout' => env('OIDC_TIMEOUT'),
     'leeway' => env('OIDC_LEEWAY'),
-    'redirect_uri' => route('oidc.callback'),
+    'redirect_uri' => static fn () => route('oidc.callback'),
     'response_types' => explode(env('OIDC_RESPONSE_TYPES'), ','),
     'authorization_endpoint' => env('OIDC_AUTHORIZATION_ENDPOINT'),
     'authorization_response_iss_parameter_supported' => env('OIDC_AUTHORIZATION_RESPONSE_ISS_PARAMETER_SUPPORTED'),

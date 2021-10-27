@@ -17,7 +17,6 @@ class OIDCServiceProvider extends ServiceProvider
      */
     final public function register(): void
     {
-        $this->loadRoutesFrom(__DIR__ . '/routes.php');
         $this->mergeConfigFrom(__DIR__ . '/config.php', 'oidc');
     }
 
@@ -49,6 +48,10 @@ class OIDCServiceProvider extends ServiceProvider
 
     private function getOIDCClient(): Client
     {
-        return new Client(config('oidc'));
+        $config = collect(config('oidc'));
+        $config->replace([
+            'redirect_uri' => $config->get('redirect_uri', fn () => url())()
+        ]);
+        return new Client($config->all());
     }
 }

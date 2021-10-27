@@ -25,7 +25,7 @@ class OIDCUserProvider implements UserProvider
         }
 
         /** @noinspection UnusedFunctionResultInspection */
-        $attrs->each(fn(mixed $value, string $attr) => $user->$attr = $value);
+        $attrs->each(fn (mixed $value, string $attr) => $user->$attr = $value);
 
         return $user;
     }
