@@ -17,6 +17,7 @@ class OIDCServiceProvider extends ServiceProvider
      */
     final public function register(): void
     {
+        $this->loadRoutesFrom(__DIR__ . '/routes.php');
         $this->mergeConfigFrom(__DIR__ . '/config.php', 'oidc');
     }
 
