@@ -17,7 +17,7 @@ return [
     'code_challenge_method' => env('OIDC_CODE_CHALLENGE_METHOD'),
     'timeout' => env('OIDC_TIMEOUT'),
     'leeway' => env('OIDC_LEEWAY'),
-    'redirect_uri' => static fn () => route('oidc.callback'),
+    'redirect_uri' => env('OIDC_PROVIDER_NAME', 'oidc') . '/' . env('OIDC_CALLBACK_ROUTE_PATH', 'callback'),
     'response_types' => explode(',', env('OIDC_RESPONSE_TYPES')),
     'authorization_endpoint' => env('OIDC_AUTHORIZATION_ENDPOINT'),
     'authorization_response_iss_parameter_supported' => env('OIDC_AUTHORIZATION_RESPONSE_ISS_PARAMETER_SUPPORTED'),
@@ -28,6 +28,7 @@ return [
     'jwt_key' => env('OIDC_JWT_KEY'),
     'jwt_plain_key' => env('OIDC_JWT_PLAIN_KEY'),
 
+    'callback_route_path' => env('OIDC_CALLBACK_ROUTE_PATH', 'callback'),
     'redirect_path_after_login' => env('OIDC_REDIRECT_PATH_AFTER_LOGIN', '/'),
     'redirect_path_after_logout' => env('OIDC_REDIRECT_PATH_AFTER_LOGOUT', '/')
 ];
