@@ -48,10 +48,8 @@ class OIDCServiceProvider extends ServiceProvider
 
     private function getOIDCClient(): Client
     {
-        $config = collect(config('oidc'));
-        $config->replace([
-            'redirect_uri' => route('oidc.callback')
-        ]);
+        $config = collect(config('oidc'))
+            ->put('redirect_uri', route('oidc.callback'));
         return new Client($config->all());
     }
 }
