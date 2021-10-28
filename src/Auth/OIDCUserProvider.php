@@ -7,7 +7,7 @@ namespace Maicol07\OIDCClient\Auth;
 use AssertionError;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
-use Illuminate\Foundation\Auth\User;
+use Maicol07\OIDCClient\Models\User;
 use Maicol07\OpenIDConnect\UserInfo;
 
 class OIDCUserProvider implements UserProvider
