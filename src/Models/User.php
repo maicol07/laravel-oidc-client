@@ -2,7 +2,7 @@
 
 namespace Maicol07\OIDCClient\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as LaravelUser;
 
 /**
  * @property string $uuid Unique ID of the user
@@ -32,7 +32,7 @@ use Illuminate\Database\Eloquent\Model;
  * ---
  * @property string $id_token ID Token returned from the token request (requested for this user)
  */
-class User extends Model
+class User extends LaravelUser
 {
     public string $name;
     public string $given_name;
