@@ -50,7 +50,7 @@ class OIDCServiceProvider extends ServiceProvider
     {
         $config = collect(config('oidc'));
         $config->replace([
-            'redirect_uri' => $config->get('redirect_uri', fn () => url())()
+            'redirect_uri' => route('oidc.callback')
         ]);
         return new Client($config->all());
     }
