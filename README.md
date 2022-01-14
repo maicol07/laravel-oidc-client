@@ -15,7 +15,7 @@ A Laravel package for delegating authentication to an OpenID Provider.
 Begin by adding this package to your depedencies with the command:
 
 ```powershell
-composer require maicol07/oidc-client
+composer require maicol07/laravel-oidc-client
 ```
 
 If you have opted out from auto discovery, you'll need to add the following line to the list of registered service
