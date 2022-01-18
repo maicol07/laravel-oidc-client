@@ -3,6 +3,7 @@
 namespace Maicol07\OIDCClient;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
 use Maicol07\OIDCClient\Auth\OIDCGuard;
 use Maicol07\OIDCClient\Auth\OIDCUserProvider;
@@ -53,8 +54,17 @@ class OIDCServiceProvider extends ServiceProvider
 
     private function getOIDCClient(): Client
     {
+        $this->autodiscovery();
+
         $config = collect(config('oidc'))
             ->put('redirect_uri', route('oidc.callback'));
         return new Client($config->all());
+    }
+
+    private function autodiscovery(): void {
+        if (!is_null($providerURL = config('oidc.provider_url'))) {
+            $config = Http::get($providerURL)->json();
+            config()->set('oidc', array_merge(config('oidc'), $config ?? []));
+        }
     }
 }
