@@ -11,13 +11,18 @@ use Maicol07\OpenIDConnect\Client;
 class OIDCServiceProvider extends ServiceProvider
 {
     /**
+     * Config file path
+     */
+    private const CONFIG_FILE = __DIR__ . '/../config/oidc.php';
+
+    /**
      * Register services.
      *
      * @return void
      */
     final public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/oidc.php', 'oidc');
+        $this->mergeConfigFrom(self::CONFIG_FILE, 'oidc');
     }
 
     /**
@@ -28,7 +33,7 @@ class OIDCServiceProvider extends ServiceProvider
     final public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/config/oidc.php' => config_path('oidc.php'),
+           self::CONFIG_FILE => config_path('oidc.php'),
         ], 'oidc.config');
 
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
