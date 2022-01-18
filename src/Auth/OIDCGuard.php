@@ -30,7 +30,7 @@ class OIDCGuard extends SessionGuard
      */
     final public function getAuthorizationUrl(): string
     {
-        return $this->oidc->getAuthorizationUrl();
+        return $this->oidc->getAuthorizationUrl(config('oidc.authorization_endpoint_query_params'));
     }
 
     /**

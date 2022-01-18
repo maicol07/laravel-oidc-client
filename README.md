@@ -61,8 +61,12 @@ required (like endpoints) if you use OIDC auto discovery!
 You can also publish the config file (`config/oidc.php`) if you want:
 
 ```powershell
-php artisan vendor:publish --provider="Maicol07\OIDCClient\OIDCServiceProvider"
+php artisan vendor:publish --provider ="Maicol07\OIDCClient\OIDCServiceProvider"
 ```
+
+> Note: The following options are adjustable only in the config file (there is no ENV variable):
+>
+> * `authorization_endpoint_query_params`: Additional query parameters to add to the final authorization URL
 
 ## How to use
 
