@@ -67,6 +67,8 @@ php artisan vendor:publish --provider="Maicol07\OIDCClient\OIDCServiceProvider"
 > Note: The following options are adjustable only in the config file (there is no ENV variable):
 >
 > * `authorization_endpoint_query_params`: Additional query parameters to add to the final authorization URL
+> * `disable_oidcstatemiddleware_for_post_callback`: A boolean to disable the registration of the `OIDCStateMiddleware` middleware.  
+>   This middleware rebuilds the session token held in the `state` parameter of a `POST` request to the `callback` route.
 
 ## How to use
 
