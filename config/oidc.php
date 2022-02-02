@@ -27,6 +27,7 @@ return [
     'userinfo_endpoint' => env('OIDC_USERINFO_ENDPOINT'),
     'jwt_signing_method' => env('OIDC_JWT_SIGNING_METHOD', 'sha256'),
     'jwt_key' => env('OIDC_JWT_KEY'),
+    'jwt_signing_key' => env('OIDC_JWT_SIGNING_KEY'),
     'jwt_plain_key' => env('OIDC_JWT_PLAIN_KEY'),
 
     'callback_route_path' => env('OIDC_CALLBACK_ROUTE_PATH', 'callback'),
