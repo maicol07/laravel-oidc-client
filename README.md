@@ -54,6 +54,8 @@ You can set the following environment variables to adjust the package settings:
 - `OIDC_HTTP_PROXY`: If you have a proxy, set it here.
 - `OIDC_SCOPES`: A list of scopes, separated by a comma (`,`). Defaults to `['openid']`. Example of valid
   value: `openid,email`
+- `OIDC_DISABLE_STATEMIDDLEWARE_FOR_POST_CALLBACK`: A boolean to disable the registration of the `OIDCStateMiddleware` middleware.  
+  This middleware rebuilds the session token held in the `state` parameter of a `POST` request to the `callback` route.
 
 You can find other options to set and their env variables in `config/oidc.php`. Note that some options are not
 required (like endpoints) if you use OIDC auto discovery!
@@ -67,8 +69,6 @@ php artisan vendor:publish --provider="Maicol07\OIDCClient\OIDCServiceProvider"
 > Note: The following options are adjustable only in the config file (there is no ENV variable):
 >
 > * `authorization_endpoint_query_params`: Additional query parameters to add to the final authorization URL
-> * `disable_oidcstatemiddleware_for_post_callback`: A boolean to disable the registration of the `OIDCStateMiddleware` middleware.  
->   This middleware rebuilds the session token held in the `state` parameter of a `POST` request to the `callback` route.
 
 ## How to use
 
