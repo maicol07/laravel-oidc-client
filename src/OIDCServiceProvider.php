@@ -92,7 +92,7 @@ class OIDCServiceProvider extends ServiceProvider
         $request = Request::capture();
         $callbackPathInfo = '/' . config('oidc.provider_name') . '/' . config('oidc.callback_route_path');
 
-        return !config('oidc.disable_oidcstatemiddleware_for_post_callback', false)
+        return !config('oidc.disable_state_middleware_for_post_callback', false)
             && strtoupper($request->method()) === 'POST'
             && $request->getPathInfo() === $callbackPathInfo;
     }
