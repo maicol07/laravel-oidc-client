@@ -8,6 +8,6 @@ Route::prefix(config('oidc.provider_name'))->middleware('web')->group(function (
         ->name('oidc.login');
     Route::get('logout', [OIDCController::class, 'logout'])
         ->name('oidc.logout');
-    Route::get(config('oidc.callback_route_path'), [OIDCController::class, 'callback'])
+    Route::match(['get', 'post'], config('oidc.callback_route_path'), [OIDCController::class, 'callback'])
         ->name('oidc.callback');
 });
