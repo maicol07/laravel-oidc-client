@@ -54,7 +54,7 @@ You can set the following environment variables to adjust the package settings:
 - `OIDC_HTTP_PROXY`: If you have a proxy, set it here.
 - `OIDC_SCOPES`: A list of scopes, separated by a comma (`,`). Defaults to `['openid']`. Example of valid
   value: `openid,email`
-- `OIDC_DISABLE_STATEMIDDLEWARE_FOR_POST_CALLBACK`: A boolean to disable the registration of the `OIDCStateMiddleware` middleware.  
+- `OIDC_DISABLE_STATE_MIDDLEWARE_FOR_POST_CALLBACK`: A boolean to disable the registration of the `OIDCStateMiddleware` middleware.  
   This middleware rebuilds the session token held in the `state` parameter of a `POST` request to the `callback` route.
 
 You can find other options to set and their env variables in `config/oidc.php`. Note that some options are not
