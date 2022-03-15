@@ -1,6 +1,7 @@
 <?php
 
 /** @noinspection LaravelFunctionsInspection */
+/** @noinspection JsonEncodingApiUsageInspection */
 return [
     'client_id' => env('OIDC_CLIENT_ID'),
     'client_secret' => env('OIDC_CLIENT_SECRET'),
@@ -20,7 +21,7 @@ return [
     'redirect_uri' => env('OIDC_PROVIDER_NAME', 'oidc') . '/' . env('OIDC_CALLBACK_ROUTE_PATH', 'callback'),
     'response_types' => env('OIDC_RESPONSE_TYPES') ? explode(',', env('OIDC_RESPONSE_TYPES')) : [],
     'authorization_endpoint' => env('OIDC_AUTHORIZATION_ENDPOINT'),
-    'authorization_endpoint_query_params' => null,
+    'authorization_endpoint_query_params' => json_decode(env('OIDC_AUTHORIZATION_ENDPOINT_QUERY_PARAMS', 'null'), true),
     'authorization_response_iss_parameter_supported' => env('OIDC_AUTHORIZATION_RESPONSE_ISS_PARAMETER_SUPPORTED'),
     'token_endpoint' => env('OIDC_TOKEN_ENDPOINT'),
     'token_endpoint_auth_methods_supported' => env('OIDC_TOKEN_ENDPOINT_AUTH_METHODS_SUPPORTED') ? explode(',', env('OIDC_TOKEN_ENDPOINT_AUTH_METHODS_SUPPORTED')) : [],

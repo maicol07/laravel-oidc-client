@@ -52,8 +52,11 @@ You can set the following environment variables to adjust the package settings:
 - `OIDC_VERIFY`: Verify SSL when sending requests to the server. Defaults to `true`. (Optional: You can
   set `OIDC_CERT_PATH` to an SSL certificate path if you set this option to `false`)
 - `OIDC_HTTP_PROXY`: If you have a proxy, set it here.
-- `OIDC_SCOPES`: A list of scopes, separated by a comma (`,`). Defaults to `['openid']`. Example of valid
-  value: `openid,email`
+- `OIDC_SCOPES`: A list of scopes, separated by a comma (`,`). Defaults to `['openid']`.
+  Example of valid value: `openid,email`
+- `OIDC_AUTHORIZATION_ENDPOINT_QUERY_PARAMS`: A list of query parameters to add to the authorization endpoint encoded as
+  a JSON object.
+  Example of valid value: `{"response_type":"code"}`
 
 You can find other options to set and their env variables in `config/oidc.php`. Note that some options are not
 required (like endpoints) if you use OIDC auto discovery!
@@ -63,10 +66,6 @@ You can also publish the config file (`config/oidc.php`) if you want:
 ```powershell
 php artisan vendor:publish --provider="Maicol07\OIDCClient\OIDCServiceProvider"
 ```
-
-> Note: The following options are adjustable only in the config file (there is no ENV variable):
->
-> * `authorization_endpoint_query_params`: Additional query parameters to add to the final authorization URL
 
 ## How to use
 
