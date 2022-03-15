@@ -57,6 +57,8 @@ You can set the following environment variables to adjust the package settings:
 - `OIDC_AUTHORIZATION_ENDPOINT_QUERY_PARAMS`: A list of query parameters to add to the authorization endpoint encoded as
   a JSON object.
   Example of valid value: `{"response_type":"code"}`
+- `OIDC_DISABLE_STATE_MIDDLEWARE_FOR_POST_CALLBACK`: A boolean to disable the registration of the `OIDCStateMiddleware` middleware.  
+  This middleware rebuilds the session token held in the `state` parameter of a `POST` request to the `callback` route.
 
 You can find other options to set and their env variables in `config/oidc.php`. Note that some options are not
 required (like endpoints) if you use OIDC auto discovery!
