@@ -87,4 +87,4 @@ to `Maicol07\OIDCClient\User` instead.
 
 > Originally developed by Cabinet Office Digital Development in October 2019.
 >
-> Currently maintained by [mamicol07](https://maicol07.it) from October 2021
+> Currently maintained by [maicol07](https://maicol07.it) from October 2021
