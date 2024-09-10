@@ -53,6 +53,7 @@ class OIDCGuard extends SessionGuard
         return $this->provider->retrieveByInfo($user_info);
     }
 
+    #[\Override]
     final public function login(User|Authenticatable $user, $remember = false): bool
     {
         $this->updateSession($user);
@@ -68,6 +69,7 @@ class OIDCGuard extends SessionGuard
         return true;
     }
 
+    #[\Override]
     final public function user(): Authenticatable|User|null
     {
         if ($this->loggedOut) {
@@ -100,6 +102,7 @@ class OIDCGuard extends SessionGuard
     /** @param User $user
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
+    #[\Override]
     final protected function updateSession($user): void
     {
         $this->session->put($this->getName(), $user);

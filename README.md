@@ -6,8 +6,8 @@ A Laravel package for delegating authentication to an OpenID Provider.
 
 ## Requirements
 
-- PHP 8.0+
-- Laravel 8+
+- PHP 8.3+
+- Laravel 11+
 - Composer 2
 
 ## Installation

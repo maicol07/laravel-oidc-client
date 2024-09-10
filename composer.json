@@ -3,12 +3,13 @@
     "version": "1.0.0",
     "license": "MIT",
     "require": {
-        "php": ">=8.0",
-        "maicol07/oidc-client": "^2",
-        "laravel/framework": "^8"
+        "php": ">=8.3",
+        "maicol07/oidc-client": "^4@rc",
+        "laravel/framework": "^11"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
+        "rector/rector": "^1",
         "friendsofphp/php-cs-fixer": "^3"
     },
     "authors": [

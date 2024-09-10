@@ -25,30 +25,35 @@ class OIDCUserProvider implements UserProvider
         }
 
         /** @noinspection UnusedFunctionResultInspection */
-        $attrs->each(fn (mixed $value, string $attr) => $user->$attr = $value);
+        $attrs->each(fn (mixed $value, string $attr): mixed => $user->$attr = $value);
 
         return $user;
     }
 
+    #[\Override]
     final public function retrieveById(mixed $identifier): ?User
     {
         return null;
     }
 
+    #[\Override]
     final public function retrieveByToken(mixed $identifier, mixed $token): ?User
     {
         return null;
     }
 
+    #[\Override]
     final public function updateRememberToken(Authenticatable|User $user, mixed $token): void
     {
     }
 
+    #[\Override]
     final public function retrieveByCredentials(array $credentials): ?User
     {
         return null;
     }
 
+    #[\Override]
     final public function validateCredentials(Authenticatable $user, array $credentials): bool
     {
         return true;
