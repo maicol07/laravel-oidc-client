@@ -2,13 +2,15 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends Factory<User>
  */
+// @phpstan-ignore-next-line
 class UserFactory extends Factory
 {
     /**
@@ -24,7 +26,9 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            // @phpstan-ignore-next-line
             'name' => fake()->name(),
+            // @phpstan-ignore-next-line
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),

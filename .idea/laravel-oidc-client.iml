@@ -213,10 +213,14 @@
       <excludeFolder url="file://$MODULE_DIR$/sample/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/sample/vendor/web-token/jwt-library" />
       <excludeFolder url="file://$MODULE_DIR$/sample/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/sample/bootstrap/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/sample/public" />
       <excludeFolder url="file://$MODULE_DIR$/sample/storage/debugbar" />
       <excludeFolder url="file://$MODULE_DIR$/sample/storage/framework" />
+      <excludeFolder url="file://$MODULE_DIR$/sample/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/sample/vendor/barryvdh/laravel-debugbar" />
       <excludeFolder url="file://$MODULE_DIR$/sample/vendor/maximebf/debugbar" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

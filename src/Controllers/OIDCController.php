@@ -16,32 +16,32 @@ use Maicol07\OIDCClient\Auth\OIDCGuard;
 
 class OIDCController extends Controller
 {
-    use ValidatesRequests;
     use AuthorizesRequests;
     use DispatchesJobs;
+    use ValidatesRequests;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * @throws Exception
      */
     final public function login(): RedirectResponse
     {
+        assert($this->guard() instanceof OIDCGuard);
         return redirect()->away($this->guard()->getAuthorizationUrl());
     }
 
     /**
      * @throws Exception
      */
-    final public function callback(Request $request): null|RedirectResponse
+    final public function callback(Request $request): ?RedirectResponse
     {
+        assert($this->guard() instanceof OIDCGuard);
         $user = $this->guard()->generateUser();
 
         if ($this->guard()->login($user)) {

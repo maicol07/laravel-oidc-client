@@ -8,8 +8,8 @@ class AddOidcFieldsToUsers extends Migration
 {
     final public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $column = $table->uuid('uuid')->index();
+        Schema::table('users', static function (Blueprint $table) {
+            $column = $table->uuid()->index();
             if (Schema::hasColumn('users', 'id')) {
                 $column->after('id');
             }
@@ -19,7 +19,7 @@ class AddOidcFieldsToUsers extends Migration
 
     final public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', static function (Blueprint $table) {
             $table->dropColumn('uuid');
         });
     }

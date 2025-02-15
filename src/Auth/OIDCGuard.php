@@ -7,10 +7,11 @@ namespace Maicol07\OIDCClient\Auth;
 use Exception;
 use Illuminate\Auth\SessionGuard;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
-use JetBrains\PhpStorm\Pure;
 use Maicol07\OIDCClient\Models\User;
 use Maicol07\OpenIDConnect\Client;
 use Maicol07\OpenIDConnect\ClientAuthMethod;
@@ -19,23 +20,31 @@ use Maicol07\OpenIDConnect\JwtSigningAlgorithm;
 use Maicol07\OpenIDConnect\ResponseType;
 use Maicol07\OpenIDConnect\Scope;
 use Maicol07\OpenIDConnect\UserInfo;
+use Override;
 
 class OIDCGuard extends SessionGuard
 {
     private Client $oidc;
 
-    #[Pure]
+    /**
+     * @throws BindingResolutionException
+     * @throws ConnectionException
+     */
     public function __construct(
         $name,
         OIDCUserProvider $provider,
         Session $session,
         private readonly Application $app,
-        Request $request = null,
+        ?Request $request = null,
     ) {
         parent::__construct($name, $provider, $session, $request);
         $this->buildOIDCClient();
     }
 
+    /**
+     * @throws BindingResolutionException
+     * @throws ConnectionException
+     */
     public function buildOIDCClient(): void
     {
         $config = $this->app->make('config')->get('oidc');
@@ -73,7 +82,6 @@ class OIDCGuard extends SessionGuard
         );
     }
 
-
     /**
      * @throws Exception
      */
@@ -88,6 +96,7 @@ class OIDCGuard extends SessionGuard
     final public function getUserInfo(): UserInfo
     {
         $this->oidc->authenticate();
+
         return $this->oidc->getUserInfo();
     }
 
@@ -99,10 +108,13 @@ class OIDCGuard extends SessionGuard
         if ($user_info === null) {
             $user_info = $this->getUserInfo();
         }
+
+        assert($this->provider instanceof OIDCUserProvider);
+
         return $this->provider->retrieveByInfo($user_info);
     }
 
-    #[\Override]
+    #[Override]
     final public function login(User|Authenticatable $user, $remember = false): bool
     {
         $this->updateSession($user);
@@ -115,27 +127,28 @@ class OIDCGuard extends SessionGuard
 
         /** @noinspection UnusedFunctionResultInspection */
         $this->setUser($user);
+
         return true;
     }
 
-    #[\Override]
+    #[Override]
     final public function user(): Authenticatable|User|null
     {
         if ($this->loggedOut) {
             return null;
         }
 
-        if (!is_null($this->user)) {
+        if (! is_null($this->user)) {
             return $this->user;
         }
 
         $user = $this->session->get($this->getName());
 
-        if (!is_null($user) && $this->user = $user) {
+        if (! is_null($user) && $this->user = $user) {
             $this->fireAuthenticatedEvent($this->user);
         }
 
-        if (is_null($this->user) && !is_null($recaller = $this->recaller())) {
+        if (is_null($this->user) && ! is_null($recaller = $this->recaller())) {
             $this->user = $this->userFromRecaller($recaller);
 
             if ($this->user) {
@@ -151,7 +164,7 @@ class OIDCGuard extends SessionGuard
     /** @param User $user
      * @noinspection PhpParameterNameChangedDuringInheritanceInspection
      */
-    #[\Override]
+    #[Override]
     final protected function updateSession($user): void
     {
         $this->session->put($this->getName(), $user);

@@ -19,12 +19,14 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ext-pdo": "*",
         "laravel/framework": "^11.31",
         "laravel/octane": "^2.7",
         "laravel/tinker": "^2.9",
         "maicol07/laravel-oidc-client": "*"
     },
     "require-dev": {
+        "roave/security-advisories": "dev-latest",
         "barryvdh/laravel-debugbar": "^3.14",
         "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.1",
