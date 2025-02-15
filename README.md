@@ -44,16 +44,14 @@ You can set the following environment variables to adjust the package settings:
 - `OIDC_CLIENT_ID`: Client ID of your app. This is commonly provided by your OIDC provider.
 - `OIDC_CLIENT_SECRET`: Client secret of your app. This is commonly provided by your OIDC provider.
 - `OIDC_PROVIDER_URL`: URL of your OIDC provider. This is used if your provider supports OIDC Auto Discovery.
-- `OIDC_PROVIDER_NAME`: This is a short name for your OpenID provider, which will only appears in your OpenID routes. Do
-  not use spaces. Defaults to `oidc`
 - `OIDC_CALLBACK_ROUTE_PATH`: A path (with or without leading slash) to append to the provider name, to make the
   callback route path. Defaults to `callback`
-  Example with the default values: `oidc/callback` (`OIDC_PROVIDER_NAME` + `/` + `OIDC_CALLBACK_ROUTE_PATH`)
+  Example with the default values: `oidc/callback` (`oidc/` + `OIDC_CALLBACK_ROUTE_PATH`)
 - `OIDC_VERIFY`: Verify SSL when sending requests to the server. Defaults to `true`. (Optional: You can
   set `OIDC_CERT_PATH` to an SSL certificate path if you set this option to `false`)
 - `OIDC_HTTP_PROXY`: If you have a proxy, set it here.
-- `OIDC_SCOPES`: A list of scopes, separated by a comma (`,`). Defaults to `['openid']`.
-  Example of valid value: `openid,email`
+- `OIDC_SCOPES`: A list of scopes, separated by a space (` `). Defaults to `['openid']`.
+  Example of valid value: `openid email`
 - `OIDC_AUTHORIZATION_ENDPOINT_QUERY_PARAMS`: A list of query parameters to add to the authorization endpoint encoded as
   a JSON object.
   Example of valid value: `{"response_type":"code"}`

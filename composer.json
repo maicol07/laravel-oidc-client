@@ -9,6 +9,7 @@
     },
     "require-dev": {
         "laravel/pint": "^1",
+        "laravel/octane": "^2",
         "roave/security-advisories": "dev-latest",
         "rector/rector": "^1"
     },
