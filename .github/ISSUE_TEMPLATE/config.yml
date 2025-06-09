@@ -1,5 +1,0 @@
-blank_issues_enabled: false
-contact_links:
-  - name: Report a bug/Request a feature on Maicol07 Tracker
-    url: https://tracker.maicol07.it/projects/91998a6b-4b0e-4f4a-8698-0bca7a3ce6e1
-    about: To better organize the developer's work, issues should be created in the developer bug tracker. Please open an issue there and not here on Github. This is the only way to make sure your request is remembered and solved! Any issue created here on Github will be marked as invalid, as you should use the official bug tracker!
