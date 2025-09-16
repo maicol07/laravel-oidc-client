@@ -117,7 +117,7 @@ class OIDCGuard extends SessionGuard
     #[Override]
     final public function login(User|Authenticatable $user, $remember = false): bool
     {
-        $this->updateSession($user);
+        $this->updateSession($user->getAuthIdentifier());
 
         if ($remember) {
             $this->ensureRememberTokenIsSet($user);
@@ -152,22 +152,12 @@ class OIDCGuard extends SessionGuard
             $this->user = $this->userFromRecaller($recaller);
 
             if ($this->user) {
-                $this->updateSession($this->user);
+                $this->updateSession($this->user->getAuthIdentifier());
 
                 $this->fireLoginEvent($this->user, true);
             }
         }
 
         return $this->user;
-    }
-
-    /** @param User $user
-     * @noinspection PhpParameterNameChangedDuringInheritanceInspection
-     */
-    #[Override]
-    final protected function updateSession($user): void
-    {
-        $this->session->put($this->getName(), $user);
-        $this->session->migrate(true);
     }
 }
