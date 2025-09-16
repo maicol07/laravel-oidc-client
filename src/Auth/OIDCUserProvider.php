@@ -20,8 +20,9 @@ class OIDCUserProvider implements UserProvider
         $user = config('auth.providers.users.model')::where('uuid', $uuid)->firstOrNew();
         try {
             assert($user instanceof User);
+            // @phpstan-ignore-next-line (AssertionError is always triggered)
         } catch (AssertionError) {
-            throw new AssertionError('User model must extend ' . User::class);
+            throw new AssertionError('User model must extend '.User::class);
         }
 
         /** @noinspection UnusedFunctionResultInspection */
@@ -43,9 +44,7 @@ class OIDCUserProvider implements UserProvider
     }
 
     #[\Override]
-    final public function updateRememberToken(Authenticatable|User $user, mixed $token): void
-    {
-    }
+    final public function updateRememberToken(Authenticatable|User $user, mixed $token): void {}
 
     #[\Override]
     final public function retrieveByCredentials(array $credentials): ?User
@@ -63,6 +62,5 @@ class OIDCUserProvider implements UserProvider
         Authenticatable $user,
         #[\SensitiveParameter] array $credentials,
         bool $force = false
-    ) {
-    }
+    ): void {}
 }
