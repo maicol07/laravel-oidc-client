@@ -41,7 +41,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/nette/utils" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nunomaduro/termwind" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpoption/phpoption" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/phpstan/phpstan" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/clock" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/container" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/event-dispatcher" />
@@ -161,8 +160,6 @@
       <excludeFolder url="file://$MODULE_DIR$/sample/vendor/ramsey/collection" />
       <excludeFolder url="file://$MODULE_DIR$/sample/vendor/ramsey/uuid" />
       <excludeFolder url="file://$MODULE_DIR$/sample/vendor/sebastian/cli-parser" />
-      <excludeFolder url="file://$MODULE_DIR$/sample/vendor/sebastian/code-unit" />
-      <excludeFolder url="file://$MODULE_DIR$/sample/vendor/sebastian/code-unit-reverse-lookup" />
       <excludeFolder url="file://$MODULE_DIR$/sample/vendor/sebastian/comparator" />
       <excludeFolder url="file://$MODULE_DIR$/sample/vendor/sebastian/complexity" />
       <excludeFolder url="file://$MODULE_DIR$/sample/vendor/sebastian/diff" />
@@ -219,7 +216,6 @@
       <excludeFolder url="file://$MODULE_DIR$/sample/storage/framework" />
       <excludeFolder url="file://$MODULE_DIR$/sample/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/sample/vendor/barryvdh/laravel-debugbar" />
-      <excludeFolder url="file://$MODULE_DIR$/sample/vendor/maximebf/debugbar" />
       <excludeFolder url="file://$MODULE_DIR$/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/sample/storage/app" />
     </content>

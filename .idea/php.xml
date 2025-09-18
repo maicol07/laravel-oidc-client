@@ -109,7 +109,6 @@
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php83" />
       <path value="$PROJECT_DIR$/vendor/symfony/uid" />
       <path value="$PROJECT_DIR$/vendor/fruitcake/php-cors" />
-      <path value="$PROJECT_DIR$/vendor/phpstan/phpstan" />
       <path value="$PROJECT_DIR$/vendor/rector/rector" />
       <path value="$PROJECT_DIR$/vendor/league/uri" />
       <path value="$PROJECT_DIR$/vendor/league/uri-interfaces" />
@@ -209,7 +208,6 @@
       <path value="$PROJECT_DIR$/sample/vendor/laravel/serializable-closure" />
       <path value="$PROJECT_DIR$/sample/vendor/sebastian/comparator" />
       <path value="$PROJECT_DIR$/sample/vendor/laravel/sail" />
-      <path value="$PROJECT_DIR$/sample/vendor/sebastian/code-unit-reverse-lookup" />
       <path value="$PROJECT_DIR$/sample/vendor/laravel/tinker" />
       <path value="$PROJECT_DIR$/sample/vendor/mockery/mockery" />
       <path value="$PROJECT_DIR$/sample/vendor/sebastian/global-state" />
@@ -218,7 +216,6 @@
       <path value="$PROJECT_DIR$/sample/vendor/laravel/pint" />
       <path value="$PROJECT_DIR$/sample/vendor/sebastian/version" />
       <path value="$PROJECT_DIR$/sample/vendor/laravel/framework" />
-      <path value="$PROJECT_DIR$/sample/vendor/sebastian/code-unit" />
       <path value="$PROJECT_DIR$/sample/vendor/laravel/prompts" />
       <path value="$PROJECT_DIR$/sample/vendor/fruitcake/php-cors" />
       <path value="$PROJECT_DIR$/sample/vendor/sebastian/diff" />
@@ -236,8 +233,14 @@
       <path value="$PROJECT_DIR$/sample/vendor/psy/psysh" />
       <path value="$PROJECT_DIR$/sample/vendor/nunomaduro/collision" />
       <path value="$PROJECT_DIR$/sample/vendor/nunomaduro/termwind" />
-      <path value="$PROJECT_DIR$/sample/vendor/maximebf/debugbar" />
       <path value="$PROJECT_DIR$/sample/vendor/barryvdh/laravel-debugbar" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php85" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php84" />
+      <path value="$PROJECT_DIR$/vendor/phpstan/phpstan" />
+      <path value="$PROJECT_DIR$/sample/vendor/php-debugbar/php-debugbar" />
+      <path value="$PROJECT_DIR$/sample/vendor/symfony/polyfill-php85" />
+      <path value="$PROJECT_DIR$/sample/vendor/symfony/polyfill-php84" />
+      <path value="$PROJECT_DIR$/sample/vendor/_laravel_idea" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.3" />
