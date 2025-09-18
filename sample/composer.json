@@ -18,9 +18,9 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "ext-pdo": "*",
-        "laravel/framework": "^11.31",
+        "laravel/framework": "^v12.28.1",
         "laravel/octane": "^2.7",
         "laravel/tinker": "^2.9",
         "maicol07/laravel-oidc-client": "*"
@@ -34,7 +34,7 @@
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.1",
-        "phpunit/phpunit": "^11.0.1"
+        "phpunit/phpunit": "^12.3.11"
     },
     "autoload": {
         "psr-4": {
