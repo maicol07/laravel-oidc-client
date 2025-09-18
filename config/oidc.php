@@ -49,8 +49,16 @@ return [
     'timeout' => env('OIDC_TIMEOUT', 0),
 
     // Routes
-    'callback_route_path' => env('OIDC_CALLBACK_ROUTE_PATH', 'callback'),
     'redirect_path_after_login' => env('OIDC_REDIRECT_PATH_AFTER_LOGIN', '/'),
     'redirect_path_after_logout' => env('OIDC_REDIRECT_PATH_AFTER_LOGOUT', '/'),
     'disable_state_middleware_for_post_callback' => env('OIDC_DISABLE_STATE_MIDDLEWARE_FOR_POST_CALLBACK', false),
+
+    'routes' => [
+        'login' => env('OIDC_ROUTE_LOGIN', 'login'),
+        'logout' => env('OIDC_ROUTE_LOGOUT', 'logout'),
+        'callback' => env('OIDC_ROUTE_CALLBACK', 'callback'),
+        'prefix' => env('OIDC_ROUTE_PREFIX', 'oidc'),
+        'name' => env('OIDC_ROUTE_NAME', 'oidc.'),
+        'middleware' => explode(',', env('OIDC_ROUTE_MIDDLEWARE', 'web')),
+    ],
 ];

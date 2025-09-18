@@ -4,12 +4,16 @@ use Illuminate\Support\Facades\Route;
 use Maicol07\OIDCClient\Controllers\OIDCController;
 use Maicol07\OIDCClient\Http\OIDCStateMiddleware;
 
-Route::prefix('oidc')->middleware('web')->group(function (): void {
-    Route::get('login', [OIDCController::class, 'login'])
-        ->name('oidc.login');
-    Route::get('logout', [OIDCController::class, 'logout'])
-        ->name('oidc.logout');
-    Route::match(['get', 'post'], config('oidc.callback_route_path', 'callback'), [OIDCController::class, 'callback'])
+Route::group([
+    'prefix' => config('oidc.routes.prefix', 'oidc'),
+    'middleware' => config('oidc.routes.middleware', ['web']),
+    'name' => config('oidc.routes.name', 'oidc.'),
+], static function (): void {
+    Route::get(config('oidc.routes.login', 'login'), [OIDCController::class, 'login'])
+        ->name('login');
+    Route::get(config('oidc.routes.logout', 'logout'), [OIDCController::class, 'logout'])
+        ->name('logout');
+    Route::match(['get', 'post'], config('oidc.routes.callback', 'callback'), [OIDCController::class, 'callback'])
         ->middleware(OIDCStateMiddleware::class)
-        ->name('oidc.callback');
+        ->name('callback');
 });
