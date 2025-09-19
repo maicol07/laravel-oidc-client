@@ -61,4 +61,6 @@ return [
         'name' => env('OIDC_ROUTE_NAME', 'oidc.'),
         'middleware' => explode(',', env('OIDC_ROUTE_MIDDLEWARE', 'web')),
     ],
+
+    'guard' => env('OIDC_GUARD'),
 ];
