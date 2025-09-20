@@ -7,7 +7,7 @@ use Maicol07\OIDCClient\Http\OIDCStateMiddleware;
 Route::group([
     'prefix' => config('oidc.routes.prefix', 'oidc'),
     'middleware' => config('oidc.routes.middleware', ['web']),
-    'name' => config('oidc.routes.name', 'oidc.'),
+    'as' => config('oidc.routes.name', 'oidc.'),
 ], static function (): void {
     Route::get(config('oidc.routes.login', 'login'), [OIDCController::class, 'login'])
         ->name('login');

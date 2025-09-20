@@ -54,7 +54,7 @@ class OIDCGuard extends SessionGuard
             provider_url: $config['provider_url'],
             issuer: $config['issuer'],
             scopes: array_map(static fn (string $scope): Scope => Scope::from($scope), array_filter($config['scopes'])),
-            redirect_uri: route('oidc.callback'),
+            redirect_uri: route(config('oidc.routes.name').'callback'),
             enable_pkce: $config['enable_pkce'],
             enable_nonce: $config['enable_nonce'],
             code_challenge_method: CodeChallengeMethod::from($config['code_challenge_method']),
