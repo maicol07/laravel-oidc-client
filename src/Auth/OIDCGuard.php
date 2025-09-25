@@ -6,13 +6,14 @@ namespace Maicol07\OIDCClient\Auth;
 
 use Exception;
 use Illuminate\Auth\SessionGuard;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
-use Maicol07\OIDCClient\Models\User;
+use Maicol07\OIDCClient\Events\LoginWithOIDC;
+use Maicol07\OIDCClient\Models\Traits\LogsInWithOidc;
 use Maicol07\OpenIDConnect\Client;
 use Maicol07\OpenIDConnect\ClientAuthMethod;
 use Maicol07\OpenIDConnect\CodeChallengeMethod;
@@ -20,7 +21,6 @@ use Maicol07\OpenIDConnect\JwtSigningAlgorithm;
 use Maicol07\OpenIDConnect\ResponseType;
 use Maicol07\OpenIDConnect\Scope;
 use Maicol07\OpenIDConnect\UserInfo;
-use Override;
 
 class OIDCGuard extends SessionGuard
 {
@@ -111,53 +111,11 @@ class OIDCGuard extends SessionGuard
 
         assert($this->provider instanceof OIDCUserProvider);
 
-        return $this->provider->retrieveByInfo($user_info);
+        return $this->provider->retrieveByInfo($this->oidc->issuer, $user_info);
     }
 
-    #[Override]
-    final public function login(User|Authenticatable $user, $remember = false): bool
+    protected function fireLoginEvent($user, $remember = false): void
     {
-        $this->updateSession($user->getAuthIdentifier());
-
-        if ($remember) {
-            $this->ensureRememberTokenIsSet($user);
-            $this->queueRecallerCookie($user);
-        }
-        $this->fireLoginEvent($user, $remember);
-
-        /** @noinspection UnusedFunctionResultInspection */
-        $this->setUser($user);
-
-        return true;
-    }
-
-    #[Override]
-    final public function user(): Authenticatable|User|null
-    {
-        if ($this->loggedOut) {
-            return null;
-        }
-
-        if (! is_null($this->user)) {
-            return $this->user;
-        }
-
-        $user = $this->session->get($this->getName());
-
-        if (! is_null($user) && $this->user = $user) {
-            $this->fireAuthenticatedEvent($this->user);
-        }
-
-        if (is_null($this->user) && ! is_null($recaller = $this->recaller())) {
-            $this->user = $this->userFromRecaller($recaller);
-
-            if ($this->user) {
-                $this->updateSession($this->user->getAuthIdentifier());
-
-                $this->fireLoginEvent($this->user, true);
-            }
-        }
-
-        return $this->user;
+        $this->events->dispatch(new LoginWithOIDC($this->name, $user, $remember, $user->oidcUserInfo ?? $this->getUserInfo()));
     }
 }

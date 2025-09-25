@@ -44,7 +44,7 @@ You can set the following environment variables to adjust the package settings:
 - `OIDC_CLIENT_ID`: Client ID of your app. This is commonly provided by your OIDC provider.
 - `OIDC_CLIENT_SECRET`: Client secret of your app. This is commonly provided by your OIDC provider.
 - `OIDC_PROVIDER_URL`: URL of your OIDC provider. This is used if your provider supports OIDC Auto Discovery.
-- `OIDC_CALLBACK_ROUTE_PATH`: A path (with or without leading slash) to append to the provider name, to make the
+- `OIDC_CALLBACK_ROUTE`: A path (with or without leading slash) to append to the provider name, to make the
   callback route path. Defaults to `callback`
   Example with the default values: `oidc/callback` (`oidc/` + `OIDC_CALLBACK_ROUTE_PATH`)
 - `OIDC_VERIFY`: Verify SSL when sending requests to the server. Defaults to `true`. (Optional: You can
@@ -75,8 +75,8 @@ logouts, use the route `route('oidc.logout')`.
 You can set the following environment variables to specify the routes/URLs you want your users to be redirected to upon
 successful authentication/logout: `OIDC_REDIRECT_PATH_AFTER_LOGIN` and `OIDC_REDIRECT_PATH_AFTER_LOGOUT`.
 
-You may want to create your own `User` model. If yes, then you must extend `Maicol07\OIDCClient\User` in order to get
-auth working.
+You should add the `Maicol07\OIDCClient\Models\Traits\LogsInWithOidc` to your `User` model if you want to use the
+get the mapping relation.
 
 Check your `auth.providers.users.model` config value: it must be set to your custom `User` model or
 to `Maicol07\OIDCClient\User` instead.

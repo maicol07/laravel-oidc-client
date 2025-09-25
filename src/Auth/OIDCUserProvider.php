@@ -5,61 +5,69 @@
 namespace Maicol07\OIDCClient\Auth;
 
 use AssertionError;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
-use Maicol07\OIDCClient\Models\User;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Maicol07\OIDCClient\Models\OidcAuthMapping;
+use Maicol07\OIDCClient\Models\Traits\LogsInWithOidc;
 use Maicol07\OpenIDConnect\UserInfo;
 
 class OIDCUserProvider implements UserProvider
 {
-    final public function retrieveByInfo(UserInfo $user_info): User
+    final public function retrieveByInfo(string $issuer, UserInfo $user_info): Authenticatable
     {
-        $attrs = $user_info->attrs();
-        $uuid = $attrs->pull('sub');
-
-        $user = config('auth.providers.users.model')::where('uuid', $uuid)->firstOrNew();
+        /** @var class-string<Authenticatable> $user_class */
+        $user_class = config('auth.providers.users.model');
         try {
-            assert($user instanceof User);
-            // @phpstan-ignore-next-line (AssertionError is always triggered)
+            assert(in_array(LogsInWithOidc::class, class_uses($user_class), true));
         } catch (AssertionError) {
-            throw new AssertionError('User model must extend '.User::class);
+            throw new AssertionError('User model must use '.LogsInWithOidc::class);
         }
 
-        /** @noinspection UnusedFunctionResultInspection */
-        $attrs->each(fn (mixed $value, string $attr): mixed => $user->$attr = $value);
+        $mapping = OidcAuthMapping::firstOrCreate([
+            'sub' => $user_info->sub,
+            'issuer' => $issuer,
+        ], [
+            'id_token' => $user_info->id_token,
+        ]);
+        $user = $mapping->user()->firstOrCreate();
+        $mapping->user()->associate($user);
+        $mapping->save();
+
+        // Temporarily store the OIDC UserInfo in the user model
+        $user->oidcUserInfo = $user_info;
 
         return $user;
     }
 
     #[\Override]
-    final public function retrieveById(mixed $identifier): ?User
+    final public function retrieveById(mixed $identifier): ?Authenticatable
     {
         return null;
     }
 
     #[\Override]
-    final public function retrieveByToken(mixed $identifier, mixed $token): ?User
+    final public function retrieveByToken(mixed $identifier, mixed $token): ?Authenticatable
     {
         return null;
     }
 
     #[\Override]
-    final public function updateRememberToken(Authenticatable|User $user, mixed $token): void {}
+    final public function updateRememberToken(\Illuminate\Contracts\Auth\Authenticatable $user, mixed $token): void {}
 
     #[\Override]
-    final public function retrieveByCredentials(array $credentials): ?User
+    final public function retrieveByCredentials(array $credentials): ?Authenticatable
     {
         return null;
     }
 
     #[\Override]
-    final public function validateCredentials(Authenticatable $user, array $credentials): bool
+    final public function validateCredentials(\Illuminate\Contracts\Auth\Authenticatable $user, array $credentials): bool
     {
         return true;
     }
 
     public function rehashPasswordIfRequired(
-        Authenticatable $user,
+        \Illuminate\Contracts\Auth\Authenticatable $user,
         #[\SensitiveParameter] array $credentials,
         bool $force = false
     ): void {}

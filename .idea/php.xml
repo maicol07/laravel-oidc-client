@@ -240,7 +240,7 @@
       <path value="$PROJECT_DIR$/sample/vendor/php-debugbar/php-debugbar" />
       <path value="$PROJECT_DIR$/sample/vendor/symfony/polyfill-php85" />
       <path value="$PROJECT_DIR$/sample/vendor/symfony/polyfill-php84" />
-      <path value="$PROJECT_DIR$/sample/vendor/_laravel_idea" />
+      <path value="$PROJECT_DIR$/vendor/_laravel_idea" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.3" />
