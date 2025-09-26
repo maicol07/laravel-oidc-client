@@ -111,7 +111,7 @@ class OIDCGuard extends SessionGuard
 
         assert($this->provider instanceof OIDCUserProvider);
 
-        return $this->provider->retrieveByInfo($this->oidc->issuer, $user_info);
+        return $this->provider->retrieveByInfo($this->oidc->issuer ?? $this->oidc->provider_url, $user_info);
     }
 
     protected function fireLoginEvent($user, $remember = false): void
