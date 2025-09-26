@@ -68,7 +68,11 @@ return [
      * A callback that receives the OIDC UserInfo and returns an array of attributes.
      * `email` and `email_verified_at` are automatically set if available in the UserInfo.
      */
-    'user_creation_attributes' => static fn (\Maicol07\OpenIDConnect\UserInfo $user_info): array => [
+    'user_creation_attributes' => static fn (
+        string $issuer,
+        \Maicol07\OpenIDConnect\UserInfo $user_info,
+        \Maicol07\OIDCClient\Models\OidcAuthMapping $mapping
+    ): array => [
         'first_name' => $user_info->given_name,
         'last_name' => $user_info->family_name,
     ],

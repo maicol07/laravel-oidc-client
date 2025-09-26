@@ -35,7 +35,7 @@ class OIDCUserProvider implements UserProvider
         ], config('oidc.user_creation_attributes', static fn (UserInfo $user_info): array => [
             'first_name' => $user_info->given_name,
             'last_name' => $user_info->family_name,
-        ])());
+        ])($issuer, $user_info, $mapping));
         $mapping->user()->associate($user);
         $mapping->save();
 
