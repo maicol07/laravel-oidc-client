@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Validation\ValidationException;
 use Maicol07\OIDCClient\Auth\OIDCGuard;
@@ -40,15 +41,14 @@ class OIDCController extends Controller
     {
         $user = $this->guard()->generateUser();
 
-        if ($this->guard()->login($user)) {
+        $this->guard()->login($user);
+        if ($this->guard()->check()) {
             $request->session()->regenerate();
 
             return redirect()->intended(config('oidc.redirect_path_after_login'));
         }
 
-        throw ValidationException::withMessages([
-            'user' => [trans('auth.failed')],
-        ]);
+        abort(Response::HTTP_UNAUTHORIZED, trans('auth.failed'));
     }
 
     final public function logout(Request $request): RedirectResponse
