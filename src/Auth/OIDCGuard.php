@@ -26,8 +26,7 @@ class OIDCGuard extends SessionGuard
 {
     private Client $oidc;
 
-    // @phpstan-ignore-next-line
-    /** @var Dispatcher|null */
+    /** @var Dispatcher|null @phpstan-ignore-next-line */
     protected $events;
 
     /**
