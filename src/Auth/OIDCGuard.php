@@ -6,6 +6,7 @@ namespace Maicol07\OIDCClient\Auth;
 
 use Exception;
 use Illuminate\Auth\SessionGuard;
+use Illuminate\Bus\Dispatcher;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Session\Session;
@@ -13,7 +14,6 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 use Maicol07\OIDCClient\Events\LoginWithOIDC;
-use Maicol07\OIDCClient\Models\Traits\LogsInWithOidc;
 use Maicol07\OpenIDConnect\Client;
 use Maicol07\OpenIDConnect\ClientAuthMethod;
 use Maicol07\OpenIDConnect\CodeChallengeMethod;
@@ -25,6 +25,10 @@ use Maicol07\OpenIDConnect\UserInfo;
 class OIDCGuard extends SessionGuard
 {
     private Client $oidc;
+
+    // @phpstan-ignore-next-line
+    /** @var Dispatcher|null */
+    protected $events;
 
     /**
      * @throws BindingResolutionException
@@ -116,6 +120,6 @@ class OIDCGuard extends SessionGuard
 
     protected function fireLoginEvent($user, $remember = false): void
     {
-        $this->events->dispatch(new LoginWithOIDC($this->name, $user, $remember, $user->oidcUserInfo ?? $this->getUserInfo()));
+        $this->events?->dispatch(new LoginWithOIDC($this->name, $user, $remember, $user->oidcUserInfo ?? $this->getUserInfo()));
     }
 }
