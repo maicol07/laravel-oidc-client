@@ -63,4 +63,13 @@ return [
     ],
 
     'guard' => env('OIDC_GUARD'),
+
+    /**
+     * A callback that receives the OIDC UserInfo and returns an array of attributes.
+     * `email` and `email_verified_at` are automatically set if available in the UserInfo.
+     */
+    'user_creation_attributes' => static fn (\Maicol07\OpenIDConnect\UserInfo $user_info): array => [
+        'first_name' => $user_info->given_name,
+        'last_name' => $user_info->family_name,
+    ],
 ];
