@@ -14,7 +14,6 @@ return new class extends Migration
             $table->foreignIdFor(config('auth.providers.users.model'));
             $table->string('sub');
             $table->string('issuer');
-            $table->string('id_token');
             $table->timestamps();
         });
     }

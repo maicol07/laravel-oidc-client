@@ -23,11 +23,11 @@ class OIDCUserProvider implements UserProvider
             throw new AssertionError('User model must use '.LogsInWithOidc::class);
         }
 
+        session(['oidc_id_token' => $user_info->id_token]);
+
         $mapping = OidcAuthMapping::firstOrCreate([
             'sub' => $user_info->sub,
             'issuer' => $issuer,
-        ], [
-            'id_token' => $user_info->id_token,
         ]);
         $user = $mapping->user()->firstOrCreate();
         $mapping->user()->associate($user);
