@@ -31,7 +31,7 @@ class OIDCUserProvider implements UserProvider
         ]);
         $user = $mapping->user()->firstOrCreate([
             'email' => $user_info->email,
-            'email_verified_at' => $user_info->email_verified,
+            'email_verified_at' => $user_info->email_verified ? now() : null,
         ], config('oidc.user_creation_attributes', static fn (UserInfo $user_info): array => [
             'first_name' => $user_info->given_name,
             'last_name' => $user_info->family_name,
