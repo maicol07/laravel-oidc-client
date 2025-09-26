@@ -25,7 +25,7 @@ class OIDCUserProvider implements UserProvider
 
         session(['oidc_id_token' => $user_info->id_token]);
 
-        $mapping = OidcAuthMapping::firstOrCreate([
+        $mapping = OidcAuthMapping::firstOrNew([
             'sub' => $user_info->sub,
             'issuer' => $issuer,
         ]);
