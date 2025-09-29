@@ -78,9 +78,6 @@ successful authentication/logout: `OIDC_REDIRECT_PATH_AFTER_LOGIN` and `OIDC_RED
 You should add the `Maicol07\OIDCClient\Models\Traits\LogsInWithOidc` to your `User` model if you want to use the
 get the mapping relation.
 
-Check your `auth.providers.users.model` config value: it must be set to your custom `User` model or
-to `Maicol07\OIDCClient\User` instead.
-
 ---
 
 > Originally developed by Cabinet Office Digital Development in October 2019.
