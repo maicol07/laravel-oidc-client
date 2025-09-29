@@ -5,14 +5,23 @@
 namespace Maicol07\OIDCClient\Auth;
 
 use AssertionError;
-use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Auth\EloquentUserProvider;
+use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Maicol07\OIDCClient\Models\OidcAuthMapping;
 use Maicol07\OIDCClient\Models\Traits\LogsInWithOidc;
 use Maicol07\OpenIDConnect\UserInfo;
 
-class OIDCUserProvider implements UserProvider
+class OIDCUserProvider extends EloquentUserProvider
 {
+    public function __construct()
+    {
+        parent::__construct(
+            app()->make(HasherContract::class),
+            config('auth.providers.users.model')
+        );
+    }
+
     final public function retrieveByInfo(string $issuer, UserInfo $user_info): Authenticatable
     {
         /** @var class-string<Authenticatable> $user_class */
@@ -25,6 +34,7 @@ class OIDCUserProvider implements UserProvider
 
         session(['oidc_id_token' => $user_info->id_token]);
 
+        // @phpstan-ignore-next-line
         $mapping = OidcAuthMapping::firstOrNew([
             'sub' => $user_info->sub,
             'issuer' => $issuer,
@@ -44,21 +54,6 @@ class OIDCUserProvider implements UserProvider
 
         return $user;
     }
-
-    #[\Override]
-    final public function retrieveById(mixed $identifier): ?Authenticatable
-    {
-        return null;
-    }
-
-    #[\Override]
-    final public function retrieveByToken(mixed $identifier, mixed $token): ?Authenticatable
-    {
-        return null;
-    }
-
-    #[\Override]
-    final public function updateRememberToken(\Illuminate\Contracts\Auth\Authenticatable $user, mixed $token): void {}
 
     #[\Override]
     final public function retrieveByCredentials(array $credentials): ?Authenticatable
