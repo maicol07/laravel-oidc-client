@@ -38,11 +38,9 @@ class OIDCServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         Auth::extend('oidc', static function (Application $app): OIDCGuard {
-            $provider = new OIDCUserProvider;
-
             return new OIDCGuard(
                 'oidc',
-                $provider,
+                new OIDCUserProvider,
                 $app['session.store'],
                 $app
             );
