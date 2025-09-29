@@ -5,57 +5,71 @@
 namespace Maicol07\OIDCClient\Auth;
 
 use AssertionError;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\UserProvider;
-use Maicol07\OIDCClient\Models\User;
+use Illuminate\Auth\EloquentUserProvider;
+use Illuminate\Contracts\Hashing\Hasher as HasherContract;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Maicol07\OIDCClient\Models\OidcAuthMapping;
+use Maicol07\OIDCClient\Models\Traits\LogsInWithOidc;
 use Maicol07\OpenIDConnect\UserInfo;
 
-class OIDCUserProvider implements UserProvider
+class OIDCUserProvider extends EloquentUserProvider
 {
-    final public function retrieveByInfo(UserInfo $user_info): User
+    public function __construct()
     {
-        $attrs = $user_info->attrs();
-        $uuid = $attrs->pull('sub');
+        parent::__construct(
+            app()->make(HasherContract::class),
+            config('auth.providers.users.model')
+        );
+    }
 
-        $user = config('auth.providers.users.model')::where('uuid', $uuid)->firstOrNew();
+    final public function retrieveByInfo(string $issuer, UserInfo $user_info): Authenticatable
+    {
+        /** @var class-string<Authenticatable> $user_class */
+        $user_class = config('auth.providers.users.model');
         try {
-            assert($user instanceof User);
+            assert(in_array(LogsInWithOidc::class, class_uses($user_class), true));
         } catch (AssertionError) {
-            throw new AssertionError('User model must extend ' . User::class);
+            throw new AssertionError('User model must use '.LogsInWithOidc::class);
         }
 
-        /** @noinspection UnusedFunctionResultInspection */
-        $attrs->each(fn (mixed $value, string $attr): mixed => $user->$attr = $value);
+        session(['oidc_id_token' => $user_info->id_token]);
+
+        // @phpstan-ignore-next-line
+        $mapping = OidcAuthMapping::firstOrNew([
+            'sub' => $user_info->sub,
+            'issuer' => $issuer,
+        ]);
+        $user = $mapping->user()->firstOrCreate([
+            'email' => $user_info->email,
+            'email_verified_at' => $user_info->email_verified ? now() : null,
+        ], config('oidc.user_creation_attributes', static fn (UserInfo $user_info): array => [
+            'first_name' => $user_info->given_name,
+            'last_name' => $user_info->family_name,
+        ])($issuer, $user_info, $mapping));
+        $mapping->user()->associate($user);
+        $mapping->save();
+
+        // Temporarily store the OIDC UserInfo in the user model
+        $user->oidcUserInfo = $user_info;
 
         return $user;
     }
 
     #[\Override]
-    final public function retrieveById(mixed $identifier): ?User
+    final public function retrieveByCredentials(array $credentials): ?Authenticatable
     {
         return null;
     }
 
     #[\Override]
-    final public function retrieveByToken(mixed $identifier, mixed $token): ?User
-    {
-        return null;
-    }
-
-    #[\Override]
-    final public function updateRememberToken(Authenticatable|User $user, mixed $token): void
-    {
-    }
-
-    #[\Override]
-    final public function retrieveByCredentials(array $credentials): ?User
-    {
-        return null;
-    }
-
-    #[\Override]
-    final public function validateCredentials(Authenticatable $user, array $credentials): bool
+    final public function validateCredentials(\Illuminate\Contracts\Auth\Authenticatable $user, array $credentials): bool
     {
         return true;
     }
+
+    public function rehashPasswordIfRequired(
+        \Illuminate\Contracts\Auth\Authenticatable $user,
+        #[\SensitiveParameter] array $credentials,
+        bool $force = false
+    ): void {}
 }

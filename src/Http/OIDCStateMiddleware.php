@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 class OIDCStateMiddleware
 {
 
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
-        if ($request->has('state')) {
+        if ($request->isMethod('POST') && $request->has('state')) {
             $request->headers->add(['X-CSRF-TOKEN' => $request->get('state')]);
             $request->session()->put('_token', $request->get('state'));
         }
