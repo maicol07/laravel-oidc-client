@@ -78,6 +78,44 @@ successful authentication/logout: `OIDC_REDIRECT_PATH_AFTER_LOGIN` and `OIDC_RED
 You should add the `Maicol07\OIDCClient\Models\Traits\LogsInWithOidc` to your `User` model if you want to use the
 get the mapping relation.
 
+### Customizing user mappings
+You can customize how the user information received from the OIDC provider is mapped to your `User` model by
+overriding the `mapOIDCUserinfo` method from the `LogsInWithOidc` trait in your `User` model.
+Here's an example of how to do this:
+
+```php
+use Maicol07\OIDCClient\Models\Traits\LogsInWithOidc;
+use Maicol07\OIDCClient\Models\OIDCUserinfo;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+class User extends Authenticatable
+{
+    use HasApiTokens, HasFactory, Notifiable, LogsInWithOidc;
+
+    // Other model properties and methods...
+
+    /**
+     * Map OIDC UserInfo attributes to User model attributes.
+     * 
+     * This method can be overridden in the User model to customize the mapping.
+     * 
+     * @param string $issuer The OIDC issuer.
+     * @param UserInfo $user_info The OIDC UserInfo object.
+     * @param OidcAuthMapping $mapping The OIDC Auth Mapping instance.
+     */
+     #[Override]
+    public function mapOIDCUserinfo(string $issuer, UserInfo $user_info, OidcAuthMapping $mapping): void
+    {
+        // Custom mapping logic here
+        $this->name = $user_info->get('name', $this->name);
+        $this->email = $user_info->get('email', $this->email);
+        // Add more mappings as needed
+    }
+}
+```
+
 ---
 
 > Originally developed by Cabinet Office Digital Development in October 2019.

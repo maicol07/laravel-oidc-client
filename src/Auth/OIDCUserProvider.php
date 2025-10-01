@@ -39,13 +39,14 @@ class OIDCUserProvider extends EloquentUserProvider
             'sub' => $user_info->sub,
             'issuer' => $issuer,
         ]);
-        $user = $mapping->user()->firstOrCreate([
+
+        $user = $mapping->user()->firstOrNew([
             'email' => $user_info->email,
             'email_verified_at' => $user_info->email_verified ? now() : null,
-        ], config('oidc.user_creation_attributes', static fn (UserInfo $user_info): array => [
-            'first_name' => $user_info->given_name,
-            'last_name' => $user_info->family_name,
-        ])($issuer, $user_info, $mapping));
+        ]);
+        $user->mapOIDCUserinfo($issuer, $user_info, $mapping);
+        $user->save();
+
         $mapping->user()->associate($user);
         $mapping->save();
 

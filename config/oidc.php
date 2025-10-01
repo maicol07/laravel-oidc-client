@@ -67,6 +67,8 @@ return [
     /**
      * A callback that receives the OIDC UserInfo and returns an array of attributes.
      * `email` and `email_verified_at` are automatically set if available in the UserInfo.
+     *
+     * @deprecated Use the `mapOIDCUserinfo` method in your User model instead.
      */
     'user_creation_attributes' => static fn (
         string $issuer,
