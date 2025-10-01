@@ -105,7 +105,6 @@ class User extends Authenticatable
      * @param UserInfo $user_info The OIDC UserInfo object.
      * @param OidcAuthMapping $mapping The OIDC Auth Mapping instance.
      */
-     #[Override]
     public function mapOIDCUserinfo(string $issuer, UserInfo $user_info, OidcAuthMapping $mapping): void
     {
         // Custom mapping logic here
