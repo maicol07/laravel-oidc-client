@@ -41,9 +41,13 @@ class OIDCUserProvider extends EloquentUserProvider
         ]);
 
         $user = $mapping->user()->firstOrNew([
-            'email' => $user_info->email,
-            'email_verified_at' => $user_info->email_verified ? now() : null,
+            'email' => $user_info->email
         ]);
+
+        if (!$user->exists) {
+            $user->email_verified_at = $user_info->email_verified ? now() : null;
+        }
+
         $user->mapOIDCUserinfo($issuer, $user_info, $mapping);
         $user->save();
 
