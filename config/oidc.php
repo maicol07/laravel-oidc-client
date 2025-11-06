@@ -62,20 +62,5 @@ return [
         'middleware' => explode(',', env('OIDC_ROUTE_MIDDLEWARE', 'web')),
     ],
 
-    'guard' => env('OIDC_GUARD'),
-
-    /**
-     * A callback that receives the OIDC UserInfo and returns an array of attributes.
-     * `email` and `email_verified_at` are automatically set if available in the UserInfo.
-     *
-     * @deprecated Use the `mapOIDCUserinfo` method in your User model instead.
-     */
-    'user_creation_attributes' => static fn (
-        string $issuer,
-        \Maicol07\OpenIDConnect\UserInfo $user_info,
-        \Maicol07\OIDCClient\Models\OidcAuthMapping $mapping
-    ): array => [
-        'first_name' => $user_info->given_name,
-        'last_name' => $user_info->family_name,
-    ],
+    'guard' => env('OIDC_GUARD')
 ];
