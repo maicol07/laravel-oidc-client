@@ -40,7 +40,7 @@ class OIDCUserProvider extends EloquentUserProvider
             'issuer' => $issuer,
         ]);
 
-        $user = $mapping->user()->firstOrNew([
+        $user = $user_class::firstOrNew([
             'email' => $user_info->email
         ]);
 
