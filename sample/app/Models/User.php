@@ -12,7 +12,7 @@ use Maicol07\OIDCClient\Models\Traits\LogsInWithOidc;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, LogsInWithOidc;
+    use HasFactory, LogsInWithOidc, Notifiable;
 
     /**
      * The attributes that are mass assignable.

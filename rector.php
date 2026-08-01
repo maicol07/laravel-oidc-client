@@ -25,9 +25,9 @@ return static function (RectorConfig $rectorConfig) {
         SetList::PHP_82,
         SetList::PHP_83,
         SetList::DEAD_CODE,
-        SetList::TYPE_DECLARATION
+        SetList::TYPE_DECLARATION,
     ]);
     $rectorConfig->paths([
-        'src'
+        'src',
     ]);
 };

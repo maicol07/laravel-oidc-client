@@ -48,7 +48,7 @@ class OIDCServiceProvider extends ServiceProvider
             $guard->setCookieJar($app['cookie']);
             $guard->setDispatcher($app['events']);
             $guard->setRequest($app->refresh('request', $guard, 'setRequest'));
-            
+
             return $guard;
         });
     }

@@ -18,15 +18,15 @@ trait LogsInWithOidc
      *
      * This method can be overridden in the User model to customize the mapping.
      *
-     * @param string $issuer The OIDC issuer.
-     * @param UserInfo $user_info The OIDC UserInfo object.
-     * @param OidcAuthMapping $mapping The OIDC Auth Mapping instance.
+     * @param  string  $issuer  The OIDC issuer.
+     * @param  UserInfo  $user_info  The OIDC UserInfo object.
+     * @param  OidcAuthMapping  $mapping  The OIDC Auth Mapping instance.
      */
     public function mapOIDCUserinfo(string $issuer, UserInfo $user_info, OidcAuthMapping $mapping): void
     {
         $this->fill([config(
             'oidc.user_creation_attributes', // TODO: Remove in next major release
-            static fn(string $issuer, UserInfo $user_info): array => [
+            static fn (string $issuer, UserInfo $user_info): array => [
                 'first_name' => $user_info->given_name,
                 'last_name' => $user_info->family_name,
             ]
