@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class OIDCStateMiddleware
 {
-
     public function handle(Request $request, Closure $next): mixed
     {
         if ($request->isMethod('POST') && $request->has('state')) {
@@ -17,5 +16,4 @@ class OIDCStateMiddleware
 
         return $next($request);
     }
-
 }

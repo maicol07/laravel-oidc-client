@@ -13,7 +13,8 @@
         "laravel/pint": "^1",
         "laravel/octane": "^2",
         "roave/security-advisories": "dev-latest",
-        "rector/rector": "^1"
+        "rector/rector": "^1",
+        "orchestra/testbench": "^11.1"
     },
     "authors": [
         {
@@ -31,6 +32,11 @@
     "autoload": {
         "psr-4": {
             "Maicol07\\OIDCClient\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Maicol07\\OIDCClient\\Tests\\": "tests/"
         }
     },
     "extra": {

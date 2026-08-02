@@ -1,8 +1,10 @@
 <?php
 
+use Maicol07\OpenIDConnect\Client;
+
 /** @noinspection LaravelFunctionsInspection */
 /** @noinspection JsonEncodingApiUsageInspection */
-/** @see \Maicol07\OpenIDConnect\Client */
+/** @see Client */
 return [
     // Client details
     'client_id' => env('OIDC_CLIENT_ID'),
@@ -26,6 +28,7 @@ return [
     // OIDC options
     'allow_implicit_flow' => env('OIDC_ALLOW_IMPLICIT_FLOW', false),
     'enable_nonce' => env('OIDC_ENABLE_NONCE', true),
+    'link_by_verified_email' => env('OIDC_LINK_BY_VERIFIED_EMAIL', false),
     'scopes' => explode(' ', env('OIDC_SCOPES', 'openid')),
 
     // Authorization endpoint options
@@ -62,5 +65,5 @@ return [
         'middleware' => explode(',', env('OIDC_ROUTE_MIDDLEWARE', 'web')),
     ],
 
-    'guard' => env('OIDC_GUARD')
+    'guard' => env('OIDC_GUARD'),
 ];
