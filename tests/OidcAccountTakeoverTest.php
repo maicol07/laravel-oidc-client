@@ -4,11 +4,9 @@ namespace Maicol07\OIDCClient\Tests;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\UniqueConstraintViolationException;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Schema;
 use Maicol07\OIDCClient\Auth\OIDCUserProvider;
 use Maicol07\OIDCClient\Models\OidcAuthMapping;
-use Maicol07\OIDCClient\Models\Traits\LogsInWithOidc;
 use Maicol07\OIDCClient\OIDCServiceProvider;
 use Maicol07\OpenIDConnect\UserInfo;
 use Orchestra\Testbench\TestCase;
@@ -140,24 +138,5 @@ final class OidcAccountTakeoverTest extends TestCase
             $resolved?->id,
             'Should NOT link to existing user when email is unverified even if link_by_verified_email is true.'
         );
-    }
-}
-
-class User extends Authenticatable
-{
-    use LogsInWithOidc;
-
-    protected $table = 'users';
-
-    protected $guarded = [];
-
-    public $timestamps = true;
-
-    public function mapOIDCUserinfo(string $issuer, UserInfo $user_info, OidcAuthMapping $mapping): void
-    {
-        $this->fill([
-            'first_name' => $user_info->given_name,
-            'last_name' => $user_info->family_name,
-        ]);
     }
 }
